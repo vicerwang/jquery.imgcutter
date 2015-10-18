@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test imgcutter</title>
+    <link rel="stylesheet" href="../dist/jquery.imgcutter.css">
+    <style>
+        * {
+            outline: none;
+        }
+        #cboxContent {
+            position: relative;
+            background: #fff;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, .4);
+            border: 1px solid #ddd\9;
+        }
+        #cboxOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+        #cboxClose {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 20px;
+            height: 20px;
+            padding: 0;
+            border: none;
+            text-indent: -9999px;
+            background: transparent url(img/close.png);
+            cursor: pointer;
+        }
+        #popup {
+            display: none;
+            width: 300px;
+            padding: 30px 25px;
+            overflow: hidden;
+        }
+        #popupContent {
+            margin-bottom: 40px;
+        }
+        .popup-btn {
+            float: right;
+            height: 32px;
+            padding: 0 20px;
+            border: none;
+            line-height: 32px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #popupOk {
+           color: #fff;
+           background: #00b38a;
+        }
+        #popupCancel {
+            color: #333;
+            background: #fff;
+        }
+        #cutInfo {
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="popup">
+        <div id="popupContent"></div>
+        <button class="popup-btn" id="popupOk" type="button">确定</button>
+        <button class="popup-btn" id="popupCancel" type="button">取消</button>
+    </div>
+    <input type="file" />
+    <ul id="cutInfo"></ul>
+
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/jquery-colorbox/jquery.colorbox-min.js"></script>
+    <script src="../dist/jquery.imgcutter.js"></script>
+    <script>
+        var $popup = $('#popup');
+        var $inputFile = $('input[type=file]');
+        $inputFile.imgcutter({
+            container: '#popupContent',
+            beforeShow: function(e, extension) {
+                if ($.inArray(extension.toLowerCase(), [ 'jpg', 'jpeg', 'gif', 'png' ]) === -1) {
+                    alert('只支持jpg、jpeg、gif、png格式的图片文件！');
+                    $(this).val('');
+                    return false;
+                }
+
+                $.colorbox({
+                    inline: true,
+                    href: '#popup',
+                    opacity: 0.4,
+                    onLoad: function() {
+                        $ul.empty();
+                        $popup.show();
+                    },
+                    onCleanup: function() {
+                        $popup.hide();
+                        $inputFile.val('');
+                        //清空ie10及以下版本inputFile控件文本值
+                        if ($inputFile[0].outerHTML) {
+                            $inputFile[0].outerHTML = $inputFile[0].outerHTML;
+                        }
+                    }
+                });
+                return true;
+            }
+        });
+
+        var $ul = $('#cutInfo');
+        $('#popupOk').click(function() {
+            var cutInfo = $inputFile.imgcutter('getCutInfo');
+            $ul.empty();
+            for(var key in cutInfo) {
+                $ul.append('<li>' + key + ' : ' + cutInfo[key] + '</li>')
+            }
+            $.colorbox.close();
+        });
+        $('#popupCancel').click(function() {
+            $.colorbox.close();
+        });
+    </script>
+</body>
+</html>
