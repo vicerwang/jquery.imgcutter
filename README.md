@@ -1,6 +1,12 @@
 # jquery.imgcutter
 jquery.imgcutter是浏览器端的图片预览裁剪jquery插件，支持chrome/firefox/ie7+等浏览器，插件本身遵循UMD规范。
 
+## 下载
+
+```
+bower install jquery.imgcutter
+```
+
 ## 使用
 
 ```html
@@ -34,6 +40,11 @@ jquery.imgcutter是浏览器端的图片预览裁剪jquery插件，支持chrome/
 
 ```
 插件本身并不带弹窗框功能，请配合第三方弹出框插件（如colorbox等）使用，可参照example中的例子。
+
+```
+cd jquery.imgcutter
+bower install -dev
+```
 
 ## 参数
 <table>
