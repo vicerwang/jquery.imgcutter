@@ -39,7 +39,7 @@ bower install jquery.imgcutter
 </html>
 
 ```
-插件本身并不带弹窗框功能，请配合第三方弹出框插件（如colorbox等）使用，可参照example中的例子。
+插件本身并不含有弹窗功能，请配合其他弹窗插件（如[colorbox](https://github.com/jackmoore/colorbox)等）使用，可参照example中的例子。
 
 ```
 cd jquery.imgcutter
