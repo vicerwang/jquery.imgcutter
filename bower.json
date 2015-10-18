@@ -1,0 +1,25 @@
+{
+  "name": "jquery.imgcutter",
+  "version": "0.0.1",
+  "homepage": "https://github.com/vicerwang/jquery.imgcutter",
+  "authors": [
+    "vicerwang <vic01724@sina.cn>"
+  ],
+  "description": "A browser side image cutter plugin for jQuery.",
+  "main": "dist/jquery.imgcutter.js",
+  "moduleType": [],
+  "keywords": [
+    "image",
+    "cut",
+    "browser",
+    "jquery",
+    "plugin"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "1.11.3"
+  },
+  "devDependencies": {
+    "jquery-colorbox": "~1.6.3"
+  }
+}
