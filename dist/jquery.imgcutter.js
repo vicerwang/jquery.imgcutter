@@ -51,7 +51,7 @@
         enlargeMax: 2,
         clickEnlarge: true,
         enlargeRate: 'all',
-        beforeShow: null
+        beforePreview: null
     }
 
     function ImgCutter(opts, $container, $input) {
@@ -65,7 +65,7 @@
         this.enlargeMax = opts.enlargeMax;
         this.clickEnlarge = opts.clickEnlarge;
         this.enlargeRate = opts.enlargeRate;
-        this.beforeShow = opts.beforeShow;
+        this.beforePreview = opts.beforePreview;
 
         this.$input = $input;
         this.$container = $container;
@@ -215,9 +215,9 @@
                 return;
             }
 
-            if (this.beforeShow) {
+            if (this.beforePreview) {
                 var extension = val.substr(val.lastIndexOf('.') + 1);
-                if (!this.beforeShow.call(input, e, extension)) {
+                if (!this.beforePreview.call(input, e, extension)) {
                     this.$inner && this.$inner.empty();
                     this.$outer && this.$outer.empty();
                     this.clear();

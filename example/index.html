@@ -82,7 +82,7 @@
         var $inputFile = $('input[type=file]');
         $inputFile.imgcutter({
             container: '#popupContent',
-            beforeShow: function(e, extension) {
+            beforePreview: function(e, extension) {
                 if ($.inArray(extension.toLowerCase(), [ 'jpg', 'jpeg', 'gif', 'png' ]) === -1) {
                     alert('只支持jpg、jpeg、gif、png格式的图片文件！');
                     $(this).val('');
@@ -101,9 +101,9 @@
                         $popup.hide();
                         $inputFile.val('');
                         //清空ie10及以下版本inputFile控件文本值
-                        if ($inputFile[0].outerHTML) {
-                            $inputFile[0].outerHTML = $inputFile[0].outerHTML;
-                        }
+                        $inputFile.select();
+                        document.selection.clear();
+                        $inputFile.blur();
                     }
                 });
                 return true;
