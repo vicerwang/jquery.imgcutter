@@ -102,7 +102,7 @@
                         $inputFile.val('');
                         //清空ie10及以下版本inputFile控件文本值
                         $inputFile.select();
-                        document.selection.clear();
+                        document.selection && document.selection.clear();
                         $inputFile.blur();
                     }
                 });
