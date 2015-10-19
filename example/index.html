@@ -85,7 +85,7 @@
             beforePreview: function(e, extension) {
                 if ($.inArray(extension.toLowerCase(), [ 'jpg', 'jpeg', 'gif', 'png' ]) === -1) {
                     alert('只支持jpg、jpeg、gif、png格式的图片文件！');
-                    $(this).val('');
+                    clearInputFileValue($(this));
                     return false;
                 }
 
@@ -99,11 +99,7 @@
                     },
                     onCleanup: function() {
                         $popup.hide();
-                        $inputFile.val('');
-                        //清空ie10及以下版本inputFile控件文本值
-                        $inputFile.select();
-                        document.selection && document.selection.clear();
-                        $inputFile.blur();
+                        clearInputFileValue($inputFile);
                     }
                 });
                 return true;
@@ -115,13 +111,21 @@
             var cutInfo = $inputFile.imgcutter('getCutInfo');
             $ul.empty();
             for(var key in cutInfo) {
-                $ul.append('<li>' + key + ' : ' + cutInfo[key] + '</li>')
+                $ul.append('<li>' + key + ' : ' + cutInfo[key] + '</li>');
             }
             $.colorbox.close();
         });
         $('#popupCancel').click(function() {
             $.colorbox.close();
         });
+
+        function clearInputFileValue($inputFile) {
+            $inputFile.val('');
+            //清空ie10及以下版本inputFile控件文本值
+            $inputFile.select();
+            document.selection && document.selection.clear();
+            $inputFile.blur();
+        }
     </script>
 </body>
 </html>
