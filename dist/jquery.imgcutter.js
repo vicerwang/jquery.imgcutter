@@ -215,6 +215,14 @@
                 return;
             }
 
+            if (document.selection) {
+                input.select();
+                input.blur();
+                if (document.selection.createRange().text === '') {
+                    return;
+                }
+            }
+
             if (this.beforePreview) {
                 var extension = val.substr(val.lastIndexOf('.') + 1);
                 if (!this.beforePreview.call(input, e, extension)) {
@@ -377,12 +385,21 @@
                 overflow: 'hidden'
             });
 
-            var $photo;
-            if (this.$photo.is('img')) {
-                $photo = $('<img src=' + this.$photo.prop('src') + ' />');
+            var supportFileApi = this.$photo.is('img');
+            var $photo = $container.children('.imgcutter-cut-preview');
+            if ($photo.length === 0) {
+                if (supportFileApi) {
+                    $photo = $('<img class="imgcutter-cut-preview" />');
+                } else {
+                    $photo = $('<div class="imgcutter-cut-preview"></div>');
+                }
+            }
+
+            if (supportFileApi) {
+                $photo[0].src = this.$photo[0].src;
             } else {
                 var src = this.$photo[0].filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src;
-                $photo = $('<div>').css('filter', 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="' + src + '"');
+                $photo.css('filter', 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="' + src + '"');
             }
             $photo.appendTo($container).css({
                 position: 'absolute',
