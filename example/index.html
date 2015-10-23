@@ -60,6 +60,9 @@
             color: #333;
             background: #fff;
         }
+        #previewContainer {
+            margin: 20px 0;
+        }
         #cutInfo {
             padding: 0;
         }
@@ -72,6 +75,7 @@
         <button class="popup-btn" id="popupCancel" type="button">取消</button>
     </div>
     <input type="file" />
+    <div id="previewContainer"></div>
     <ul id="cutInfo"></ul>
 
     <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -94,7 +98,6 @@
                     href: '#popup',
                     opacity: 0.4,
                     onLoad: function() {
-                        $ul.empty();
                         $popup.show();
                     },
                     onCleanup: function() {
@@ -108,6 +111,7 @@
 
         var $ul = $('#cutInfo');
         $('#popupOk').click(function() {
+            $inputFile.imgcutter('cut', '#previewContainer', 150, 150);
             var cutInfo = $inputFile.imgcutter('getCutInfo');
             $ul.empty();
             for(var key in cutInfo) {

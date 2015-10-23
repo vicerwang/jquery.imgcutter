@@ -1,4 +1,4 @@
-(function (root, factory) {
+(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['jquery'], factory);
     } else if (typeof exports === "object") {
@@ -6,7 +6,7 @@
     } else {
         factory(root.$);
     }
-}(this, function ($) {
+}(this, function($) {
     'use strict';
 
     $.fn.imgcutter = function(opts) {
@@ -17,7 +17,7 @@
         var imgCutter = $(this).data('imgcutter');
         if (typeof opts === 'string') {
             if (imgCutter && imgCutter[opts]) {
-                return imgCutter[opts]();
+                return imgCutter[opts].apply(imgCutter, Array.prototype.slice.call(arguments, 1));
             }
             return;
         }
@@ -33,10 +33,10 @@
                 $container = $(opts.container);
             }
             if ($container.length) {
-               var imgCutter = new ImgCutter(opts, $container, $(this));
-               $(this).data('imgcutter', imgCutter);
-               imgCutter.init();
-               return this;
+                var imgCutter = new ImgCutter(opts, $container, $(this));
+                $(this).data('imgcutter', imgCutter);
+                imgCutter.init();
+                return this;
             }
         }
     }
@@ -258,8 +258,8 @@
                     this.$inner.html(photoHtml);
                     this.$outer.html(photoHtml);
                     this.$photo = this.$previewr.find('.imgcutter-photo')
-                    // imgcutter-photo-fake用来获取图片的实际大小，如果display为none，则获取不到
-                    // 为了防止在获取时整个容器被设置为隐藏，所以将imgcutter-photo-fake append到body中，并且设置位置在可视区域外
+                        // imgcutter-photo-fake用来获取图片的实际大小，如果display为none，则获取不到
+                        // 为了防止在获取时整个容器被设置为隐藏，所以将imgcutter-photo-fake append到body中，并且设置位置在可视区域外
                     $('<img class="imgcutter-photo-fake" />')
                         .appendTo($('body'))
                         .css({
@@ -346,11 +346,51 @@
                 originalWidth: this.originalWidth,
                 originalHeight: this.originalHeight,
                 currentWidth: this.$photo ? this.$photo.width() : 0,
-                currentHeight: this.$photo ? this.$photo.height(): 0,
+                currentHeight: this.$photo ? this.$photo.height() : 0,
                 selectorX: this.$photo ? Math.abs(parseFloat(this.$photo.css('left'))) : 0,
                 selectorY: this.$photo ? Math.abs(parseFloat(this.$photo.css('top'))) : 0
             }
+        },
+
+        cut: function(container, width, height) {
+            var info = this.getCutInfo();
+            if (info.currentWidth === 0) {
+                return;
+            }
+
+            width = parseFloat(width);
+            height = parseFloat(height);
+            var scale = Math.max(width / info.selectorWidth, height / info.selectorHeight);
+            var newWidth = info.currentWidth * scale;
+            var newHeight = info.currentHeight * scale;
+            var newX = info.selectorX * scale;
+            var newY = info.selectorY * scale;
+
+            var $container = container instanceof jQuery ? container : $(container);
+            var positionStyle = $container.css('position');
+            if ($.inArray(positionStyle, ['absolute', 'fixed', 'relative']) === -1) {
+                $container.css('position', 'relative');
+            }
+            $container.css({
+                width: width,
+                height: height,
+                overflow: 'hidden'
+            });
+
+            var $photo;
+            if (this.$photo.is('img')) {
+                $photo = $('<img src=' + this.$photo.prop('src') + ' />');
+            } else {
+                var src = this.$photo[0].filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src;
+                $photo = $('<div>').css('filter', 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="' + src + '"');
+            }
+            $photo.appendTo($container).css({
+                position: 'absolute',
+                top: -newY,
+                left: -newX,
+                width: newWidth,
+                height: newHeight
+            });
         }
     });
-
 }));

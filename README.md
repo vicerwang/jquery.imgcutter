@@ -106,52 +106,79 @@ bower install -dev
 </table>
 
 ## 方法
-获取图片剪裁相关的参数
 
-```javascript
-var cutInfo = $(selector).imgcutter('getCutInfo');
-```
-该方法的返回值结构为
+* getCutInfo
 
-<table>
-    <tr>
-        <td>previewrWidth</td>
-        <td>预览区域的宽度</td>
-    </tr>
-    <tr>
-        <td>previewrHeight</td>
-        <td>预览区域的高度</td>
-    </tr>
-    <tr>
-        <td>selectorWidth</td>
-        <td>剪裁区域的宽度</td>
-    </tr>
-    <tr>
-        <td>selectorHeight</td>
-        <td>剪裁区域的高度</td>
-    </tr>
-    <tr>
-        <td>originalWidth</td>
-        <td>图片实际的宽度</td>
-    </tr>
-    <tr>
-        <td>originalHeight</td>
-        <td>图片实际的高度</td>
-    </tr>
-    <tr>
-        <td>currentWidth</td>
-        <td>图片放大或缩小后的宽度</td>
-    </tr>
-    <tr>
-        <td>currentHeight</td>
-        <td>图片放大或缩小后的高度</td>
-    </tr>
-    <tr>
-        <td>selectorX</td>
-        <td>图片裁剪区域左上角距离图片左上角的x轴距离</td>
-    </tr>
-    <tr>
-        <td>selectorY</td>
-        <td>图片裁剪区域左上角距离图片左上角的y轴距离</td>
-    </tr>
-</table>
+	获取图片剪裁相关的参数
+	
+	```javascript
+	var cutInfo = $(selector).imgcutter('getCutInfo');
+	```
+	该方法的返回值结构为
+	
+	<table>
+	    <tr>
+	        <td>previewrWidth</td>
+	        <td>预览区域的宽度</td>
+	    </tr>
+	    <tr>
+	        <td>previewrHeight</td>
+	        <td>预览区域的高度</td>
+	    </tr>
+	    <tr>
+	        <td>selectorWidth</td>
+	        <td>剪裁区域的宽度</td>
+	    </tr>
+	    <tr>
+	        <td>selectorHeight</td>
+	        <td>剪裁区域的高度</td>
+	    </tr>
+	    <tr>
+	        <td>originalWidth</td>
+	        <td>图片实际的宽度</td>
+	    </tr>
+	    <tr>
+	        <td>originalHeight</td>
+	        <td>图片实际的高度</td>
+	    </tr>
+	    <tr>
+	        <td>currentWidth</td>
+	        <td>图片放大或缩小后的宽度</td>
+	    </tr>
+	    <tr>
+	        <td>currentHeight</td>
+	        <td>图片放大或缩小后的高度</td>
+	    </tr>
+	    <tr>
+	        <td>selectorX</td>
+	        <td>图片裁剪区域左上角距离图片左上角的x轴距离</td>
+	    </tr>
+	    <tr>
+	        <td>selectorY</td>
+	        <td>图片裁剪区域左上角距离图片左上角的y轴距离</td>
+	    </tr>
+	</table>
+
+* cut
+	
+	将裁剪区域显示到页面上，支持HTML5 File Api的浏览器会插入图片，ie9及其以下版本会插入经过滤镜处理的显示图片的div
+	
+	```javascript
+	$(selector).imgcutter('cut', previewContainer, height, width);
+	```
+	参数
+	
+    <table>
+        <tr>
+            <td>previewContainer</td>
+            <td>裁剪后预览区域，支持jquery选择器，dom对象以及jquery对象</td>
+        </tr>
+        <tr>
+            <td>height</td>
+            <td>裁剪后预览区域的高度，支持如150以及"150px"</td>
+        </tr>
+        <tr>
+            <td>width</td>
+            <td>裁剪后预览区域的宽度，支持如150以及"150px"</td>
+        </tr>
+    </table>
