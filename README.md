@@ -185,6 +185,7 @@ bower install -dev
     
 * destory
 	解除绑定的事件，删除添加的html结构
+	
 	```javascript
 	$(selector).imgcutter('destory');
 	```
