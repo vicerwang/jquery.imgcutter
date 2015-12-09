@@ -124,13 +124,9 @@
         });
 
         function clearInputFileValue($inputFile) {
-            $inputFile.val('');
-            //清空ie10及以下版本inputFile控件文本值
-            if (document.selection) {
-                $inputFile.select();
-                document.selection.clear();
-                $inputFile.blur();
-            }
+            $inputFile.wrap('<form></form>');
+            $inputFile.parent()[0].reset();
+            $inputFile.unwrap();
         }
     </script>
 </body>

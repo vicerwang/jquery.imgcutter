@@ -119,16 +119,16 @@
         initEvent: function() {
             var ins = this;
 
-            this.$input.change(function(e) {
+            this.$input.on('change.imgcutter', function(e) {
                 ins.preview(e);
             });
 
             // 防止ie8及以下版本在拖动图片或滑块时选中文本
-            this.$container.on('selectstart', function(e) {
+            this.$container.on('selectstart.imgcutter', function(e) {
                 e.preventDefault();
             });
 
-            this.$previewr.mousedown(function(e) {
+            this.$previewr.on('mousedown.imgcutter', function(e) {
                 e.preventDefault();
                 var distanceY = e.clientY - parseFloat(ins.$photo.css('top'));
                 var distanceX = e.clientX - parseFloat(ins.$photo.css('left'));
@@ -150,7 +150,7 @@
                     });
             });
 
-            this.$sliderHandle.mousedown(function(e) {
+            this.$sliderHandle.on('mousedown.imgcutter', function(e) {
                 e.preventDefault();
                 if (!ins.beginWidth) {
                     return;
@@ -174,7 +174,7 @@
             });
 
             if (this.clickEnlarge) {
-                this.$slider.mousedown(function(e) {
+                this.$slider.on('mousedown.imgcutter', function(e) {
                     if (!ins.beginWidth) {
                         return;
                     }
@@ -211,7 +211,7 @@
             var ins = this;
             var val = this.$input.val();
             // ie edge将input[type="file"]的value设置为空时，依然会触发change事件
-            if (!val) {
+            if (val === '') {
                 return;
             }
 
@@ -408,6 +408,17 @@
                 width: newWidth,
                 height: newHeight
             });
+        },
+
+        destory: function() {
+            this.$input.off('change.imgcutter');
+            this.$container.off('selectstart.imgcutter');
+            this.$previewr.off('mousedown.imgcutter');
+            this.$sliderHandle.off('mousedown.imgcutter');
+            this.clickEnlarge && this.$slider.off('mousedown.imgcutter');
+            this.$input.removeData('imgcutter');
+            this.$container.empty();
+            $('.imgcutter-photo-fake').remove();
         }
     });
 }));

@@ -182,3 +182,9 @@ bower install -dev
             <td>裁剪后预览区域的宽度，支持如150以及"150px"</td>
         </tr>
     </table>
+    
+* destory
+	解除绑定的事件，删除添加的html结构
+	```javascript
+	$(selector).imgcutter('destory');
+	```
